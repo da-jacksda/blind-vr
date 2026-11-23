@@ -1,0 +1,64 @@
+[gd_scene format=3 uid="uid://760k7e80t1jj"]
+
+[ext_resource type="PackedScene" uid="uid://clc5dre31iskm" path="res://addons/godot-xr-tools/xr/start_xr.tscn" id="1_o5qli"]
+[ext_resource type="PackedScene" uid="uid://ce17w0x1gh3gq" path="res://scenes/player.tscn" id="2_0wfyh"]
+[ext_resource type="Script" uid="uid://dd47nyb1xwhm6" path="res://scripts/static_body.gd" id="3_sugp2"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_0wfyh"]
+sky_top_color = Color(0, 0, 0, 1)
+sky_horizon_color = Color(0, 0, 0, 1)
+ground_bottom_color = Color(0, 0, 0, 1)
+ground_horizon_color = Color(0, 0, 0, 1)
+energy_multiplier = 0.0
+
+[sub_resource type="Sky" id="Sky_sugp2"]
+sky_material = SubResource("ProceduralSkyMaterial_0wfyh")
+
+[sub_resource type="Environment" id="Environment_jyhfs"]
+background_mode = 2
+sky = SubResource("Sky_sugp2")
+glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sugp2"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0wfyh"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_jyhfs"]
+subdivide_width = 32
+subdivide_height = 32
+subdivide_depth = 32
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g2els"]
+emission_enabled = true
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_8yy02"]
+
+[node name="Main" type="Node3D" unique_id=1072950338]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=601057311]
+environment = SubResource("Environment_jyhfs")
+
+[node name="StartXR" parent="." unique_id=1557754770 instance=ExtResource("1_o5qli")]
+
+[node name="XROrigin3D" parent="." unique_id=938965005 node_paths=PackedStringArray("cube") instance=ExtResource("2_0wfyh")]
+transform = Transform3D(-0.99376166, 0, -0.11152494, 0, 1, 0, 0.11152494, 0, -0.99376166, 0, 1.8, 0)
+cube = NodePath("../StaticBody3D")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="." unique_id=795585693]
+size = Vector3(6.7939453, 0.03857422, 6.6757813)
+material = SubResource("StandardMaterial3D_sugp2")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="." unique_id=1968585942]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -2)
+material = SubResource("ShaderMaterial_0wfyh")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=149094796]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6261233, 1.8302135)
+script = ExtResource("3_sugp2")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D" unique_id=968760490]
+mesh = SubResource("BoxMesh_jyhfs")
+surface_material_override/0 = SubResource("StandardMaterial3D_g2els")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=1284282006]
+shape = SubResource("BoxShape3D_8yy02")
